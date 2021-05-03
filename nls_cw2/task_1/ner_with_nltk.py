@@ -1,3 +1,7 @@
+"""
+process corpus_1 (inaugural scripts) with nltk.ne_chunks()
+"""
+
 from typing import List
 import nltk
 from nltk import pos_tag

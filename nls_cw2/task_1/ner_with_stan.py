@@ -1,3 +1,6 @@
+"""
+process corpus_1 (inaugural scripts with staford ner)
+"""
 import json
 import nltk
 from nltk.corpus import inaugural
