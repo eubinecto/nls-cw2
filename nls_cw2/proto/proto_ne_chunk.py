@@ -9,10 +9,8 @@ def main():
     # this is a tagged sentence
     sent = nltk.corpus.treebank.tagged_sents()[22]
     nes = nltk.ne_chunk(tagged_tokens=sent)  # e.g. PERSON, ORGANIZATION, and GPE.
-    nes_bin = nltk.ne_chunk(tagged_tokens=sent, binary=True)  # just Named-entity or not.
     print(nes)
     print("---")
-    print(nes_bin)
 
 
 if __name__ == '__main__':

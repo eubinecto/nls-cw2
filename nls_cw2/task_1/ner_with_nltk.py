@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List
 import nltk
 from nltk import pos_tag
 from nltk.corpus import inaugural
@@ -19,14 +19,16 @@ def main():
         sent_tagged = pos_tag(tokens=sent)
         # this returns a nltk.Tree, where the root is "S" and the ner-tagged tokens are children.
         chunks: nltk.Tree = nltk.ne_chunk(tagged_tokens=sent_tagged)
-        # convert the tree to a JSON-serializable format
-        processed: List[Tuple] = [tuple(chunk) for chunk in chunks]
-        results.append(processed)
+        results.append(chunks.pformat())
     # save the results
     with open(NER_WITH_NLTK_NDJSON, 'w') as fh:
-        for res in results:
-            # as a ndjson format
-            fh.write(json.dumps(res) + "\n")
+        for idx, res in enumerate(results):
+            if idx in (450, 4105):
+                # have to hard code this due to a bug in nltk.Tree.pformat.
+                to_write = json.dumps(res + ")") + "\n"
+            else:
+                to_write = json.dumps(res) + "\n"
+            fh.write(to_write)
 
 
 if __name__ == '__main__':
