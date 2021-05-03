@@ -3,7 +3,6 @@ import nltk
 from nltk import pos_tag
 from nltk.corpus import inaugural
 from tqdm import tqdm
-
 from nls_cw2.paths import NER_WITH_NLTK_NDJSON
 import json
 
@@ -14,8 +13,7 @@ def main():
     nltk.download('averaged_perceptron_tagger')
     # iterate over the sentences in the Inaugural corpus
     results = list()
-    num_sent = len([None for _ in inaugural.sents()])
-    for sent in tqdm(inaugural.sents(), total=num_sent):
+    for sent in tqdm(inaugural.sents()):
         sent: List[str]
         # in order for ne_chunk algorithm to work, the sentences must be pos-tagged
         sent_tagged = pos_tag(tokens=sent)
