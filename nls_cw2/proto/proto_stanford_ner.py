@@ -1,11 +1,11 @@
 from nltk.tag import StanfordNERTagger
-from nls_cw2.paths import MODEL_7
+from nls_cw2.paths import STAN_MODEL_7_GZ
 import nltk
 
 
 def main():
     # stanford ner tagger.
-    st = StanfordNERTagger(MODEL_7)
+    st = StanfordNERTagger(STAN_MODEL_7_GZ)
     sent = nltk.corpus.treebank.tagged_sents()[22]
     tokens = [token for token, _ in sent]
     print(st.tag(tokens=tokens))

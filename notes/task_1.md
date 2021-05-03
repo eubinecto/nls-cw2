@@ -50,6 +50,17 @@ nltk provides an interface to Stanford's NER.
  
 ## Compare the outputs of the two NER methods for the ORGANIZATION class.
 
-So, what matters is the analysis, right?
+> What am I supposed to do?
 
-
+1. NER processing
+   - corpus processed with NLTK
+     - write a script for this! 
+   - corpus processed with Stanford NER
+     - write a script for this!
+2. Comparison and discussions    
+   - boundary detection discussion
+     - what is this?? Wonder what this is about?
+   - agreement between tools  
+     1. number of exact match occurrences?
+     2. number of partial overlap?
+   
