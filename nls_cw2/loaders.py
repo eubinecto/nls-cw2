@@ -60,3 +60,10 @@ def load_mpqa_lexicons() -> Dict[str, str]:
             sentiment = row[-1].split("=")[-1]
             lemma2sentiment[lemma] = sentiment
         return lemma2sentiment
+
+
+def load_dataset() -> Generator[Tuple[str, int, str], None, None]:
+    with open(DATASET_TSV, 'r') as fh:
+        tsv_reader = csv.reader(fh, delimiter="\t")
+        for row in tsv_reader:
+            yield row[0], int(row[1]), row[2]

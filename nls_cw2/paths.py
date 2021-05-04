@@ -33,7 +33,7 @@ SUBJ_CLUES_TFF = path.join(MPQA_DIR, 'subjclueslen1-HLTEMNLP05.tff')
 
 # task 2, part b - files
 DATASET_TSV = path.join(PART_B_DIR, "dataset.tsv")
-
+GLOVE_BIN = path.join(PART_B_DIR, "glove.bin")
 
 # environment vars - need to set these up for things to work.
 environ["CLASSPATH"] = STANFORD_NER_JAR

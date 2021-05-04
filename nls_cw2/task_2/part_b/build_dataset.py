@@ -7,12 +7,12 @@ from nls_cw2.paths import *
 import nltk
 
 
-def contains_negation(sent: str) -> bool:
+def contains_negation(sent: str) -> int:
     tokens = nltk.word_tokenize(sent)
     for token in tokens:
         if token in ("n't", "not", "no"):
-            return True
-    return False
+            return 1
+    return 0
 
 
 def main():
