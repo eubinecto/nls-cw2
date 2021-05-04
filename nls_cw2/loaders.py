@@ -25,7 +25,7 @@ def load_corpus_2(positive: bool) -> Generator[str, None, None]:
     txt_path = RT_POS_TXT if positive else RT_NEG_TXT
     with open(txt_path, 'r', encoding="ISO-8859-1") as fh:
         for line in fh:
-            yield line
+            yield line.strip()
 
 
 def load_lexicons(kind: str) -> Tuple[List[str], List[str]]:

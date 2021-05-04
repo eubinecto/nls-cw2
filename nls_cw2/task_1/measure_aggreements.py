@@ -38,7 +38,6 @@ def main():
             if leave.split("+")[-1] == "ORGANIZATION"
         ]
         sent2orgidxs_nltk.append(orgidxs)
-
     sent2orgidxs_stan: List[List[int]] = list()
     for s_idx, sent in enumerate(sents_tagged_stan):
         sent: List[Tuple[str, str]]
@@ -56,7 +55,7 @@ def main():
             continue
         if orgidxs_nltk == orgidxs_stan:
             exact_match += 1  # complete agreement
-        else:  # how do I check for partial match?
+        else:
             min_nltk = orgidxs_nltk[0]
             min_stan = orgidxs_stan[0]
             max_nltk = orgidxs_nltk[-1]
