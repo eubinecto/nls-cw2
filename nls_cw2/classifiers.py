@@ -62,17 +62,21 @@ class MLClassifier(Classifier, ABC):
         # TODO: use a RandomForestClassifier. No need to use a complicated model with this.
         pass
 
-    def fit(self):
+    def fit(self, sents: List[str]):
         raise NotImplementedError
 
 
-class BOWClassifier:
+class BOWClassifier(MLClassifier):
+
+    def __call__(self, *args, **kwargs) -> Category:
+        pass
+
     # TODO: use a one-hot vectorizer maybe?
-    def fit(self):
+    def fit(self, sents: List[str]):
         pass
 
 
-class W2VClassifier:
+class W2VClassifier(MLClassifier):
     # TODO: As for this, use pre-trained weights.
     def fit(self):
         pass
