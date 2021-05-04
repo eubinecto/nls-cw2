@@ -1,5 +1,6 @@
+import csv
 import json
-from typing import List, Tuple, Generator
+from typing import List, Tuple, Generator, Dict
 import nltk
 # just import all the paths
 from nls_cw2.paths import *
@@ -20,11 +21,11 @@ def load_ner_with_stan() -> Generator[List[Tuple[str, str]], None, None]:
 
 
 # --- task 2 --- #
-def load_corpus_2(pos: bool) -> Generator[List[str], None, None]:
-    txt_path = RT_POS_TXT if pos else RT_NEG_TXT
+def load_corpus_2(positive: bool) -> Generator[str, None, None]:
+    txt_path = RT_POS_TXT if positive else RT_NEG_TXT
     with open(txt_path, 'r', encoding="ISO-8859-1") as fh:
         for line in fh:
-            yield line.split(" ")
+            yield line
 
 
 def load_lexicons(kind: str) -> Tuple[List[str], List[str]]:
@@ -47,3 +48,15 @@ def load_lexicons(kind: str) -> Tuple[List[str], List[str]]:
         positives = [line.strip() for line in fh_pos]
         negatives = [line.strip() for line in fh_neg]
     return positives, negatives
+
+
+def load_mpqa_lexicons() -> Dict[str, str]:
+    with open(SUBJ_CLUES_TFF, 'r') as fh:
+        # the file is space-separated
+        lemma2sentiment = dict()
+        ssv_reader = csv.reader(fh, delimiter=" ")
+        for row in ssv_reader:
+            lemma = row[2].split("=")[-1]
+            sentiment = row[-1].split("=")[-1]
+            lemma2sentiment[lemma] = sentiment
+        return lemma2sentiment

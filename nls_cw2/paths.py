@@ -8,6 +8,7 @@ STANFORD_NER_DIR = path.join(DATA_DIR, "stanford-ner")
 CORPUS_1_DIR = path.join(DATA_DIR, "corpus_1")
 CORPUS_2_DIR = path.join(DATA_DIR, "corpus_2")
 LEXICONS_DIR = path.join(DATA_DIR, "lexicons")
+MPQA_DIR = path.join(LEXICONS_DIR, 'mpqa')
 
 # task 1
 STANFORD_NER_JAR = path.join(STANFORD_NER_DIR, "stanford-ner.jar")
@@ -25,6 +26,8 @@ MORE_POS_TXT = path.join(LEXICONS_DIR, "more_pos.txt")
 MORE_NEG_TXT = path.join(LEXICONS_DIR, "more_neg.txt")
 RT_POS_TXT = path.join(CORPUS_2_DIR, 'rt-polarity.pos')
 RT_NEG_TXT = path.join(CORPUS_2_DIR, 'rt-polarity.neg')
+SUBJ_CLUES_TFF = path.join(MPQA_DIR, 'subjclueslen1-HLTEMNLP05.tff')
+
 
 # environment vars - need to set these up for things to work.
 environ["CLASSPATH"] = STANFORD_NER_JAR

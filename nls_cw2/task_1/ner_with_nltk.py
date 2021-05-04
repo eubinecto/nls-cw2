@@ -12,14 +12,14 @@ import json
 
 
 def main():
-    # download the corpus & pos-tagger if needed
+    # download the corpus & positive-tagger if needed
     nltk.download('inaugural')
     nltk.download('averaged_perceptron_tagger')
     # iterate over the sentences in the Inaugural corpus
     results = list()
     for sent in tqdm(inaugural.sents()):
         sent: List[str]
-        # in order for ne_chunk algorithm to work, the sentences must be pos-tagged
+        # in order for ne_chunk algorithm to work, the sentences must be positive-tagged
         sent_tagged = pos_tag(tokens=sent)
         # this returns a nltk.Tree, where the root is "S" and the ner-tagged tokens are children.
         chunks: nltk.Tree = nltk.ne_chunk(tagged_tokens=sent_tagged)

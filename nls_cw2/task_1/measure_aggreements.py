@@ -10,12 +10,13 @@ from nls_cw2.loaders import load_ner_with_nltk, load_ner_with_stan
 def reduce_to_leaves(tree: nltk.Tree) -> List[str]:
     """
     traverse the tree recursively to get the leaves,
-    while labeling the leaves with all of its parents.
+    while labeling the leaves with all of its parents' labels.
     :param tree:
     :return:
     """
     leaves = list()
     for child in tree:
+        # recursive call
         if isinstance(child, nltk.Tree):
             leaves += reduce_to_leaves(child)
         else:
@@ -47,13 +48,14 @@ def main():
 
     print(sent2orgidxs_nltk)
     print(sent2orgidxs_stan)
+    # now find the exact matches & partial matches
     exact_match = 0
     partial_match = 0
     for orgidxs_nltk, orgidxs_stan in zip(sent2orgidxs_nltk, sent2orgidxs_stan):
         if not orgidxs_nltk or not orgidxs_stan:
             continue
         if orgidxs_nltk == orgidxs_stan:
-            exact_match += 1
+            exact_match += 1  # complete agreement
         else:  # how do I check for partial match?
             min_nltk = orgidxs_nltk[0]
             min_stan = orgidxs_stan[0]
