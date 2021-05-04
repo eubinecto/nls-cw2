@@ -44,3 +44,8 @@
 
 - limits : e.g. 
   - wow . i have not been this disappointed by a movie in a long time . 
+
+
+baseline | bow | bow with additional features | w2v | w2v with additional features
+--- | --- | --- | --- | --- 
+0.5139 | 0.6459 | 0.6475 | 0.6937 | 0.7009

@@ -2,7 +2,6 @@
 collect sentiment lexicons with the basic patterns (i.e. conjoined with and, conjoined with but).
 """
 from nltk.corpus import stopwords
-
 from nls_cw2.loaders import load_lexicons, load_corpus_2
 from nls_cw2.paths import *
 from itertools import chain
