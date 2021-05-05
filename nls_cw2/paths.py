@@ -18,23 +18,18 @@ STAN_MODEL_7_GZ = path.join(STANFORD_NER_DIR, "classifiers/english.muc.7class.di
 NER_WITH_NLTK_NDJSON = path.join(TASK_1_DIR, 'ner_with_nltk.ndjson')  # ner-processed corpus 1
 NER_WITH_STAN_NDJSON = path.join(TASK_1_DIR, 'ner_with_stan.ndjson')  # ner-processed corpus 1
 
-
 # task 2, part a - files
-INIT_POS_TXT = path.join(PART_A_DIR, "init_pos.txt")
-INIT_NEG_TXT = path.join(PART_A_DIR, "init_neg.txt")
-BASIC_POS_TXT = path.join(PART_A_DIR, "basic_pos.txt")
-BASIC_NEG_TXT = path.join(PART_A_DIR, "basic_neg.txt")
-MORE_POS_TXT = path.join(PART_A_DIR, "more_pos.txt")
-MORE_NEG_TXT = path.join(PART_A_DIR, "more_neg.txt")
 RT_POS_TXT = path.join(CORPUS_2_DIR, 'rt-polarity.pos')
 RT_NEG_TXT = path.join(CORPUS_2_DIR, 'rt-polarity.neg')
+ADJS_BASIC_TSV = path.join(PART_A_DIR, "adjs_basic.tsv")  # w, c, f(w, c)
+ADJS_MORE_TSV = path.join(PART_A_DIR, "adjs_more.tsv")  # w, c, f(w, c)
+ADJS_INIT_TSV = path.join(PART_A_DIR, 'adjs_init.tsv')  # w, c
 SUBJ_CLUES_TFF = path.join(MPQA_DIR, 'subjclueslen1-HLTEMNLP05.tff')
-POLARS_TSV = path.join(PART_A_DIR, "polars.tsv")
+POLARS_TSV = path.join(PART_A_DIR, 'polars.tsv')  # w, c, p(w|c)
 
 # task 2, part b - files
 DATASET_TSV = path.join(PART_B_DIR, "dataset.tsv")
 GLOVE_BIN = path.join(PART_B_DIR, "glove.bin")
-
 
 # environment vars - need to set these up for things to work.
 environ["CLASSPATH"] = STANFORD_NER_JAR

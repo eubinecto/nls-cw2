@@ -24,9 +24,9 @@ yet NLTK NER has falsely recognized it as an organization. Likewise, In the cont
 "Revolution" means is an achievement of some sort, yet NLTK NER has failed to recognize it correctly. In contrast,
 Stanford NER has correctly recognized both of them as non-organizations.
 
-| exactly matched entities | partially match entities | disagreements
-> --- | ---
-> 226 | 142
+> NLTK NER matches | Stanford NER matches | exact matches | partial matches
+> --- | --- | --- | ---
+> 890 | 770 | 389 | 124
 > **Table 2**: Exact & partial matches of ORGANIZATION entities between the results of NLTK NER and Stanford NER.
 
 

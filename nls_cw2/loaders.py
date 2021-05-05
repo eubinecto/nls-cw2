@@ -28,26 +28,31 @@ def load_corpus_2(positive: bool) -> Generator[str, None, None]:
             yield line.strip()
 
 
-def load_lexicons(kind: str) -> Tuple[List[str], List[str]]:
-    """
-    :param kind:
-    :return: Tuples. lexicons at index 0 are positive, those at index 1 are negative.
-    """
-    if kind == "init":
-        pos_txt = INIT_POS_TXT
-        neg_txt = INIT_NEG_TXT
-    elif kind == "basic":
-        pos_txt = BASIC_POS_TXT
-        neg_txt = BASIC_NEG_TXT
-    elif kind == "more":
-        pos_txt = MORE_POS_TXT
-        neg_txt = MORE_NEG_TXT
-    else:
-        raise ValueError
-    with open(pos_txt, 'r') as fh_pos, open(neg_txt, 'r') as fh_neg:
-        positives = [line.strip() for line in fh_pos]
-        negatives = [line.strip() for line in fh_neg]
-    return positives, negatives
+def load_adjs_init() -> List[Tuple[str, str]]:
+    with open(ADJS_INIT_TSV, 'r') as fh:
+        tsv_reader = csv.reader(fh, delimiter="\t")
+        return [
+            (row[0].strip().replace("\ufeff", ""), row[1].strip())
+            for row in tsv_reader
+        ]
+
+
+def load_adjs_basic() -> List[Tuple[str, str, int]]:
+    with open(ADJS_BASIC_TSV, 'r') as fh:
+        tsv_reader = csv.reader(fh, delimiter="\t")
+        return [
+            (row[0], row[1], int(row[2]))
+            for row in tsv_reader
+        ]
+
+
+def load_adjs_more() -> List[Tuple[str, str, int]]:
+    with open(ADJS_MORE_TSV, 'r') as fh:
+        tsv_reader = csv.reader(fh, delimiter="\t")
+        return [
+            (row[0], row[1], int(row[2]))
+            for row in tsv_reader
+        ]
 
 
 def load_mpqa_lexicons() -> Dict[str, str]:

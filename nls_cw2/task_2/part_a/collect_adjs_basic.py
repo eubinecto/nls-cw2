@@ -1,13 +1,13 @@
 """
 collect sentiment lexicons with the basic patterns (i.e. conjoined with and, conjoined with but).
 """
+import csv
 import string
 
 from nltk import word_tokenize, pos_tag, RegexpParser, Tree
 from nltk.corpus import stopwords
 from tqdm import tqdm
-
-from nls_cw2.loaders import load_lexicons, load_corpus_2
+from nls_cw2.loaders import load_adjs_init, load_corpus_2
 from nls_cw2.paths import *
 from itertools import chain
 
@@ -23,14 +23,16 @@ def main():
     # use REGEXP parser to correctly collect only the adjectives.
     # the pattern should be - <adj><con><adj>
     # first, load initial lexicons.
-    init_lexicons = load_lexicons('init')
-    positives_init = set(init_lexicons[0])
-    negatives_init = set(init_lexicons[1])
+    adjs_init = load_adjs_init()
+    positives_init = [adj for adj, senti in adjs_init if senti == "pos"]
+    negatives_init = [adj for adj, senti in adjs_init if senti == "neg"]
+    print(positives_init)
+    print(negatives_init)
     # load corpus 2
     all_sents = chain(load_corpus_2(positive=True), load_corpus_2(positive=False))
     # the targets. positives_found, and negatives.
-    positives_found = set()
-    negatives_found = set()
+    positives_found = list()
+    negatives_found = list()
     # init a parser with the pattern
     parser = RegexpParser(CHUNK_PATTERN)
     for sent in tqdm(all_sents):
@@ -50,28 +52,28 @@ def main():
                     for pos_adj in positives_init:
                         if pos_adj in founds:
                             for found_token in founds:
-                                positives_found.add(found_token)
+                                positives_found.append(found_token)
                             break
                     else:
                         # else, if any of the negative lexicons are here, add found to negative founds
                         for neg_adj in negatives_init:
                             if neg_adj in founds:
                                 for found_token in founds:
-                                    negatives_found.add(found_token)
-
-    # just get the new ones.
-    positives_new = positives_found - positives_init
-    negatives_new = negatives_found - negatives_init
-    # filter stopwords
-    stop_words = set(stopwords.words('english'))
-    positives_new = [token for token in positives_new if token not in stop_words]
-    negatives_new = [token for token in negatives_new if token not in stop_words]
+                                    negatives_found.append(found_token)
+    # compute the frequencies - used later when assigning polarities.
+    pos_token2cnt = dict()
+    neg_token2cnt = dict()
+    for pos_token, neg_token in zip(positives_found, negatives_found):
+        pos_token2cnt[pos_token] = pos_token2cnt.get(pos_token, 0) + 1
+        neg_token2cnt[neg_token] = neg_token2cnt.get(neg_token, 0) + 1
 
     # save them
-    with open(BASIC_POS_TXT, 'w') as fh_pos, open(BASIC_NEG_TXT, 'w') as fh_neg:
-        for pos_lex, neg_lex in zip(positives_new, negatives_new):
-            fh_pos.write(pos_lex + "\n")
-            fh_neg.write(neg_lex + "\n")
+    with open(ADJS_BASIC_TSV, 'w') as fh:
+        tsv_writer = csv.writer(fh, delimiter="\t")
+        for pos_adj, freq in pos_token2cnt.items():
+            tsv_writer.writerow([pos_adj, 'pos', freq])
+        for neg_adj, freq in neg_token2cnt.items():
+            tsv_writer.writerow([neg_adj, 'neg', freq])
 
 
 if __name__ == '__main__':
