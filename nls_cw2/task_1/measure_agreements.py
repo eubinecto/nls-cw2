@@ -7,65 +7,64 @@ import nltk
 from nls_cw2.loaders import load_ner_with_nltk, load_ner_with_stan
 
 
-def reduce_to_leaves(tree: nltk.Tree) -> List[str]:
-    """
-    traverse the tree recursively to get the leaves,
-    while labeling the leaves with all of its parents' labels.
-    :param tree:
-    :return:
-    """
-    leaves = list()
-    for child in tree:
-        # recursive call
-        if isinstance(child, nltk.Tree):
-            leaves += reduce_to_leaves(child)
-        else:
-            # label the leaf with the parent's label
-            leaves.append(child + "+" + tree.label())
-    return leaves
-
-
 def main():
     sents_tagged_nltk = load_ner_with_nltk()
     sents_tagged_stan = load_ner_with_stan()
-    sent2orgidxs_nltk: List[List[int]] = list()
-    for s_idx, sent in enumerate(sents_tagged_nltk):
+
+    # collect nltk-extracted organizations for each sentence.
+    sent2orgs_nltk: List[List[str]] = list()
+    for sent in sents_tagged_nltk:
         sent: nltk.Tree
-        leaves = reduce_to_leaves(sent)
-        orgidxs = [
-            idx
-            for idx, leave in enumerate(leaves)
-            if leave.split("+")[-1] == "ORGANIZATION"
-        ]
-        sent2orgidxs_nltk.append(orgidxs)
-    sent2orgidxs_stan: List[List[int]] = list()
-    for s_idx, sent in enumerate(sents_tagged_stan):
+        orgs = list()
+        for child in sent:
+            if isinstance(child, nltk.Tree):
+                if child.label() == "ORGANIZATION":
+                    org = " ".join([
+                        token.split("/")[0]
+                        for token in child.leaves()
+                    ])
+                    orgs.append(org)
+        sent2orgs_nltk.append(orgs)
+
+    # collect stanford-extracted organizations for each sentence.
+    sent2orgs_stan: List[List[str]] = list()
+    for sent in sents_tagged_stan:
         sent: List[Tuple[str, str]]
         # just get the indices of organization-tagged tokens.
-        orgidxs = [idx for idx, (_, tag) in enumerate(sent) if tag == "ORGANIZATION"]
-        sent2orgidxs_stan.append(orgidxs)
-    print(sent2orgidxs_nltk)
-    print(sent2orgidxs_stan)
-    # now find the exact matches & partial matches
-    exact_match = 0
-    partial_match = 0
-    for orgidxs_nltk, orgidxs_stan in zip(sent2orgidxs_nltk, sent2orgidxs_stan):
-        if not orgidxs_nltk or not orgidxs_stan:
-            continue
-        if orgidxs_nltk == orgidxs_stan:
-            exact_match += 1  # complete agreement
-        else:
-            min_nltk = orgidxs_nltk[0]
-            min_stan = orgidxs_stan[0]
-            max_nltk = orgidxs_nltk[-1]
-            max_stan = orgidxs_stan[-1]
-            if (min_stan <= min_nltk) and (max_nltk <= max_stan):
-                partial_match += 1
-            elif (min_nltk <= min_stan) and (max_nltk <= max_stan):
-                partial_match += 1
+        org_tokens = [
+            token if label == "ORGANIZATION" else "*"
+            for token, label in sent
+        ]
+        orgs = [
+            token.strip()
+            # space-join them, and split it by an asterisk.
+            for token in " ".join(org_tokens).split("*")
+            # filter out the spaces and empty strings
+            if not token.isspace() and token
+        ]
+        sent2orgs_stan.append(orgs)
 
-    print("exact match:", exact_match)
-    print("partial match:", partial_match)
+    # now find the exact matches & partial matches
+    nltk_matches = sum([len(orgs) for orgs in sent2orgs_nltk])
+    stan_matches = sum([len(orgs) for orgs in sent2orgs_stan])
+    exact_matches = 0
+    partial_matches = 0
+
+    for orgs_nltk, orgs_stan in zip(sent2orgs_nltk, sent2orgs_stan):
+        for org_n in orgs_nltk:
+            for org_s in orgs_stan:
+                if org_n == org_s:
+                    exact_matches += 1
+                    print("exact match:", org_n)
+                # look for partial matches
+                elif (org_n in org_s) or (org_s in org_n):
+                    partial_matches += 1
+                    print("partial match: {} / {}".format(org_n, org_s))
+
+    print("nltk matches:", nltk_matches)
+    print("stan matches:", stan_matches)
+    print("exact matches:", exact_matches)
+    print("partial matches:", partial_matches)
 
 
 if __name__ == '__main__':
