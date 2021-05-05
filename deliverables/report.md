@@ -1,26 +1,36 @@
-# NLS CW2
+# NLS CW2 - NER & Sentiment Analysis
 - author: Eu-Bin KIM
 - date of submission: 4th of May 2021
 
+## Task 1 (should be just 1-page long)
+### NER processing
 
-## Task 1 (10 marks) - should be just 1-page long.
-### Processing the Inaugural corpus
-
-> this should be only 
+The Inaugural corpus is ner-processed with NLTK NER in `nls_cw2/task_1/ner_with_nltk.py`, and with Stanford NER in
+`nls_cw2/task_1/ner_with_stan.py`. The results of this process is saved in `data/task_1/ner_with_nltk.ndjson` and 
+`data/task_1/ner_with_stan.djson`, respectively. 
 
 ### Comparing and Discussions
-#### Boundary detection discussion
 
-- nltk's method - quite a lot of false-positives.
-  - e.g. at line 008: "(S\n  In/IN\n  tendering/VBG\n  this/DT\n  homage/NN\n  to/TO\n  the/DT\n  (ORGANIZATION Great/NNP Author/NNP)\n  of/IN\n  every/DT\n  public/NN\n  and/CC\n  private/JJ\n  good/JJ\n  ,/,\n  I/PRP\n  assure/VBP\n  myself/PRP\n  that/IN\n  it/PRP\n  expresses/VBZ\n  your/PRP$\n  sentiments/NNS\n  not/RB\n  less/RBR\n  than/IN\n  my/PRP$\n  own/JJ\n  ,/,\n  nor/CC\n  those/DT\n  of/IN\n  my/PRP$\n  fellow/JJ\n  citizens/NNS\n  at/IN\n  large/JJ\n  less/JJR\n  than/IN\n  either/DT\n  ./.)"
-  - e.g. at line 250: "(S\n  How/WRB\n  did/VBD\n  we/PRP\n  accomplish/VB\n  the/DT\n  (ORGANIZATION Revolution/NNP)\n  ?/.)"
-  - e.g. at line 182:  "(S\n  The/DT\n  proofs/NN\n  are/VBP\n  in/IN\n  the/DT\n  records/NNS\n  of/IN\n  each/DT\n  successive/JJ\n  (ORGANIZATION Administration/NN)\n  of/IN\n  our/PRP$\n  Government/NNP\n  ,/,\n  and/CC\n  the/DT\n  cruel/JJ\n  sufferings/NNS\n  of/IN\n  that/DT\n  portion/NN\n  of/IN\n  the/DT\n  (GPE American/JJ)\n  people/NNS\n  have/VBP\n  found/VBN\n  their/PRP$\n  way/NN\n  to/TO\n  every/DT\n  bosom/NN\n  not/RB\n  dead/JJ\n  to/TO\n  the/DT\n  sympathies/NNS\n  of/IN\n  human/JJ\n  nature/NN\n  ./.)"
-- haven't checked it yet, but I'm pretty sure the result of Stanford's is better than this. Do put this into a table, alright?
+>line | NER-tagged with NLTK NER |  NER_tagged with Stanford NER
+> --- | --- | --- 
+> line 8 | In/IN tendering/VBG this/DT homage/NN\ to/TO the/DT **(ORGANIZATION Great/NNP Author/NNP)** of/IN ... | In/O  tendering/O, this/O, homage/O, to/O, the/O, **Great/O, Author/O**, of/O
+> line 250 | How/WRB  did/VBD we/PRP accomplish/VB  the/DT **(ORGANIZATION Revolution/NNP)** ? | How/O  did/O we/O accomplish/O  the/O **Revolution\O** ?
+> **Table 1**: Two examples of NER-tagged results but with different methods. 
+
+**boundary detection discussion**. NLTK NER performs far worse than Stanford NER.
+This is because we observe that NLTK NER tends to produce far more false-positives than Stanford NER does.
+For instance, what Washington was referencing to with "the Great Author"(**Table 1**, line 8) was the jesus,
+yet NLTK NER has falsely recognized it as an organization. Likewise, In the context of the sentence in line 250, what 
+"Revolution" means is an achievement of some sort, yet NLTK NER has failed to recognize it correctly. In contrast,
+Stanford NER has correctly recognized both of them as non-organizations.
+
+| exactly matched entities | partially match entities | disagreements
+> --- | ---
+> 226 | 142
+> **Table 2**: Exact & partial matches of ORGANIZATION entities between the results of NLTK NER and Stanford NER.
 
 
-####  Agreement between the tools
-
-> exact match?
+**Agreement between tools*.
 - CI
 - why? - what patterns have you discovered in those that have been matched exactly?
 - examples?

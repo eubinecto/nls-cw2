@@ -29,11 +29,12 @@ MORE_NEG_TXT = path.join(PART_A_DIR, "more_neg.txt")
 RT_POS_TXT = path.join(CORPUS_2_DIR, 'rt-polarity.pos')
 RT_NEG_TXT = path.join(CORPUS_2_DIR, 'rt-polarity.neg')
 SUBJ_CLUES_TFF = path.join(MPQA_DIR, 'subjclueslen1-HLTEMNLP05.tff')
-
+POLARS_TSV = path.join(PART_A_DIR, "polars.tsv")
 
 # task 2, part b - files
 DATASET_TSV = path.join(PART_B_DIR, "dataset.tsv")
 GLOVE_BIN = path.join(PART_B_DIR, "glove.bin")
+
 
 # environment vars - need to set these up for things to work.
 environ["CLASSPATH"] = STANFORD_NER_JAR

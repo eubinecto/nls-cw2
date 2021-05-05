@@ -33,8 +33,8 @@ def main():
         sent: nltk.Tree
         leaves = reduce_to_leaves(sent)
         orgidxs = [
-            l_idx
-            for l_idx, leave in enumerate(leaves)
+            idx
+            for idx, leave in enumerate(leaves)
             if leave.split("+")[-1] == "ORGANIZATION"
         ]
         sent2orgidxs_nltk.append(orgidxs)
@@ -44,7 +44,6 @@ def main():
         # just get the indices of organization-tagged tokens.
         orgidxs = [idx for idx, (_, tag) in enumerate(sent) if tag == "ORGANIZATION"]
         sent2orgidxs_stan.append(orgidxs)
-
     print(sent2orgidxs_nltk)
     print(sent2orgidxs_stan)
     # now find the exact matches & partial matches

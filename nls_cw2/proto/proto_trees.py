@@ -4,7 +4,7 @@ import nltk
 def main():
     pass
     sent_1 = "one of the greatest family-oriented , fantasy-adventure movies ever ."
-    sent_2 = "a thoughtful , provocative , insistently humanizing film ."
+    sent_2 = "a thoughtful , provocative and insistently humanizing film ."
     sent_3 = "guaranteed to move anyone who ever shook , rattled , or rolled ."
     tagged_1 = nltk.pos_tag(sent_1.split(" "))
     tagged_2 = nltk.pos_tag(sent_2.split(" "))
