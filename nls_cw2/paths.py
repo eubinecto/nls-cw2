@@ -25,7 +25,7 @@ ADJS_BASIC_TSV = path.join(PART_A_DIR, "adjs_basic.tsv")  # w, c, f(w, c)
 ADJS_MORE_TSV = path.join(PART_A_DIR, "adjs_more.tsv")  # w, c, f(w, c)
 ADJS_INIT_TSV = path.join(PART_A_DIR, 'adjs_init.tsv')  # w, c
 SUBJ_CLUES_TFF = path.join(MPQA_DIR, 'subjclueslen1-HLTEMNLP05.tff')
-POLARS_TSV = path.join(PART_A_DIR, 'polars.tsv')  # w, c, p(w|c)
+POLARITIES_TSV = path.join(PART_A_DIR, 'polarities.tsv')  # w, c, p(w|c)
 
 # task 2, part b - files
 DATASET_TSV = path.join(PART_B_DIR, "dataset.tsv")
