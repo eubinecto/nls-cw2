@@ -56,7 +56,7 @@ def preproc_dataset_bow(more_features: bool) -> Tuple[np.array, List[str]]:
         # add the contains_negation column to the features.
         X_negation = np.reshape(np.array(negations), newshape=(len(negations), 1))
         X = np.concatenate((X, X_negation), axis=1)
-    print(X)
+    print(X.shape)
     return X, labels
 
 
@@ -83,7 +83,7 @@ def preproc_dataset_w2v(more_features: bool) -> Tuple[np.array, List[str]]:
         # add the contains_negation column to the features.
         X_negation = np.reshape(np.array(negations), newshape=(len(negations), 1))
         X = np.concatenate((X, X_negation), axis=1)
-    print(X)
+    print(X.shape)
     return X, labels
 
 
@@ -186,7 +186,7 @@ def main():
     parser = argparse.ArgumentParser()
     # available models: base, bow, w2v
     parser.add_argument('--model', type=str,
-                        default="w2v")
+                        default="bow")
     # this is for bow & w2v models.
     parser.add_argument('--k', type=int,
                         default=4)  # the value of k for k-fold validation
