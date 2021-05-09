@@ -15,19 +15,19 @@
 
 **Boundary detection discussion**. NLTK NER performs worse than Stanford NER.
 This is because we observe that NLTK NER tends to produce more false-positives than Stanford NER does.
-For instance, what Washington was referring to with "the Great Author"(**Table 1**, first row) was the jesus,
+For instance, Washington was referring to the jesus with "the Great Author"(**Table 1**, first row),
 yet NLTK NER has falsely recognized it as an organization. Likewise, NLTK NER has failed to recognize "Revolution" (second row)
-as an achievement and incorrectly recognized it as an organization. In contrast,
+as an achievement. In contrast,
 Stanford NER has correctly recognized both entities as non-organizations.
 
-> NLTK NER matches | Stanford NER matches | exact matches | partial matches
-> --- | --- | --- | ---
-> 890 | 770 | 389 | 124
+>  exact matches | partial matches | total
+>  --- | --- | ---
+>  389 (75%) | 124 (25%) | 513
 > **Table 2**: Exact & partial matches of ORGANIZATION entities between the results of NLTK NER and Stanford NER.
 
-**Agreement between tools**. In the case they have an agreement, there are more exact matches than there are partial matches.
-- As **Table 2** shows, there were 384 exact matches but 124 partial matches - i.e. 75% of the matches were exactly the same
-  and 25% of the matches were partially the same.  
+**Agreement between tools**. In the case they have agreements, there are more exact matches than there are partial matches. 
+75% of the matches were exactly the same and 25% of the matches were partially the same (**Table 2**). These measures are 
+reproducible with the `nls_cw2/task_1/measure_agreements.py` script.
 
 
 
@@ -36,37 +36,32 @@ Stanford NER has correctly recognized both entities as non-organizations.
 ### Part A - Bootstrapping Sentiment Lexicons
 
 **Basic patterns for finding new adjectives**. We collect any adjectives if they are 
-conjoined with any of the bootstrap lexicons. 
-- why? 
-- example? we get new ones like... :
-- how? 
-- This is implemented in `nls_cw2/task_2/part_a/collect_adjs_basic.py`.
+conjoined with any of the bootstrap lexicons. That is, if they are and-conjoined with a positive/negative boostrap lexicon, then
+they are labeled positive/negative (e.g. *brutal and corrupt*). If they are but-conjoined with a positive/negative boostrap lexicon, then they are
+labeled negative/positive (e.g. *brutal but impressive*). The collection process is implemented in `nls_cw2/task_2/part_a/collect_adjs_basic.py`,
+where we use NLTK's `RegExpParser` to collect any adjectives that match the `CONJOIN: {<JJ><CC><JJ>}` pattern.
 
-**Additional patterns implemented**. We also collect any adjectives if they are comma-enumerated, and if any of the provided
-lexicons are included in the enumeration.
-- why?: By doing so, we can expect to mine  because comma-enumerated words are typically similar in their meaning. 
-- example? 
-- explanation?  we get new (pos adj) from a (pos sent). We also get a new (neg adj) from a (neg sent). 
-- This is implemented in `nls_cw2/task_2/part_a/collect_adjs_more.py`
+**Additional patterns implemented**. We also collect any adjectives if they are comma-enumerated together with any of the bootstrap lexicons.
+For instance, provided that we know *weak* is negative, and given a sentence, *a weak, manipulative, pencil-thin story that is miraculously able to entertain anyway*,
+we can derive from the sentence that *manipulative*  and *pencil-thin* are negative because they are comma-enumerated alongside *weak*.
+This works under the assumption that we tend to lay out things that are similar to each other when we comma-enumerate words.
+The collection process is implemented in the `nls_cw2/task_2/part_a/collect_adjs_more.py` script, where we use the `RegExpParser` to collect any adjectives
+that match the `ENUM: {<JJ><,><JJ><,><JJ><,><JJ>}...` pattern.
+
 
 > Top 5 positive adjectives | Top 5 negative adjectives
 > --- | ---
 > funny(0.18), entertaining(0.06), romantic(0.04), fresh(0.03), emotional(0.02)| dull(0.08), predictable(0.07), silly(0.04), unfunny(0.04), repetitive(0.03)
-> **Table 3**: The sentiment likelihoods of the collected adjectives. 
+> **Table 3**: The sentiment likelihoods of the newly collected adjectives. 
 
-**Reconciliation**. We assign polarities to each of the collected adjectives with their sentiment likelihood.
-- why?
-- example?
-- how?
-- This is implemented in `nls_cw2/task_2/part_a/assign_polarities`.
+**Reconciliation**. We assign polarities to each of the newly collected adjectives with their sentiment likelihood.
+That is, we compute `p(adj|c)` for each adjective with respect to their sentiment class, the result of which is
+presented in **Table 3**. For instance, *funny*/*dull* are the most frequent in the positively/negatively labeled sentences, hence it is assigned with the highest
+polarity in each sentiment class. Assigning polarities is implemented in the `nls_cw2/task_2/part_a/assign_polarities.py` script.
 
-> 
-> 
-> 
-> 
-> Table: The confusion matrix with examples.
 
-**Discussion and evaluation of the extended dictionary**. (What is your main point?)
+
+**Discussion and evaluation of the extended dictionary**. (What is your main point?) We should be able to evaluate the performance... right?
 - why (evidence)? The confusion matrix shows that...?
 - example?
   - any errors? 

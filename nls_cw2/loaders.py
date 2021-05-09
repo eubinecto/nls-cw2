@@ -55,6 +55,15 @@ def load_adjs_more() -> List[Tuple[str, str, int]]:
         ]
 
 
+def load_labels() -> List[Tuple[str, str, str]]:
+    with open(LABELS_TSV, 'r') as fh:
+        tsv_reader = csv.reader(fh, delimiter="\t")
+        return [
+            (row[0], row[1], row[2])
+            for row in tsv_reader
+        ]
+
+
 def load_mpqa_lexicons() -> Dict[str, str]:
     with open(SUBJ_CLUES_TFF, 'r') as fh:
         # the file is space-separated
@@ -72,3 +81,5 @@ def load_dataset() -> Generator[Tuple[str, int, str], None, None]:
         tsv_reader = csv.reader(fh, delimiter="\t")
         for row in tsv_reader:
             yield row[0], int(row[1]), row[2]
+
+

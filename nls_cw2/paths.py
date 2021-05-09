@@ -26,6 +26,7 @@ ADJS_MORE_TSV = path.join(PART_A_DIR, "adjs_more.tsv")  # w, c, f(w, c)
 ADJS_INIT_TSV = path.join(PART_A_DIR, 'adjs_init.tsv')  # w, c
 SUBJ_CLUES_TFF = path.join(MPQA_DIR, 'subjclueslen1-HLTEMNLP05.tff')
 POLARITIES_TSV = path.join(PART_A_DIR, 'polarities.tsv')  # w, c, p(w|c)
+LABELS_TSV = path.join(PART_A_DIR, 'labels.tsv')
 
 # task 2, part b - files
 DATASET_TSV = path.join(PART_B_DIR, "dataset.tsv")
