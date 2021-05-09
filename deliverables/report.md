@@ -13,7 +13,7 @@
 > How did we accomplish  the **(ORGANIZATION Revolution)** ? | How  did we accomplish  the **Revolution** ?
 > **Table 1**: Two examples of NER-tagged results obtained with different methods.
 
-**boundary detection discussion**. NLTK NER performs worse than Stanford NER.
+**Boundary detection discussion**. NLTK NER performs worse than Stanford NER.
 This is because we observe that NLTK NER tends to produce more false-positives than Stanford NER does.
 For instance, what Washington was referring to with "the Great Author"(**Table 1**, first row) was the jesus,
 yet NLTK NER has falsely recognized it as an organization. Likewise, NLTK NER has failed to recognize "Revolution" (second row)
@@ -25,12 +25,9 @@ Stanford NER has correctly recognized both entities as non-organizations.
 > 890 | 770 | 389 | 124
 > **Table 2**: Exact & partial matches of ORGANIZATION entities between the results of NLTK NER and Stanford NER.
 
-**Agreement between tools*. (both partial overlap and the exact matches.)
-- CI
-- why? - what patterns have you discovered in those that have been matched exactly?
-- examples?
-- explanations?
-- wrap-up?
+**Agreement between tools**. In the case they have an agreement, there are more exact matches than there are partial matches.
+- As **Table 2** shows, there were 384 exact matches but 124 partial matches - i.e. 75% of the matches were exactly the same
+  and 25% of the matches were partially the same.  
 
 
 
@@ -120,11 +117,10 @@ and the vanilla W2V model outperforms the baseline by nearly 20%.
 
 **Overall discussions of results**. Although the baseline model performs the worst, it should be noted that a rule-based approach
 as such would have been more desirable than the others had we had a shortage of data. While the BoW model outperforms the baseline, it is outperformed by
-the W2V model because a BoW vector is far sparser than a W2V vector (16674 and 200 respectively).
-A vector of size 16674 is more prone to the Curse of Dimensionality than a vector of 200. Training the models with the negation feature included
-only so much outperforms the vanilla cases. This might be because, just because a sentence includes "n't", "not" or "no" does not always mean that the sentence is negative.
+the W2V model. This is because a BoW vector (16674) is far sparser and a W2V vector (200), and thus the BoW model is more prone to the Curse of Dimensionality than the W2V model.
+Training the models with the negation feature included only so much improves upon the vanilla cases. This might be because, just because a sentence includes "n't", "not" or "no" does not always mean that the sentence is negative.
 For instance, the sentence *perhaps **no** picture ever made has more literally showed that the road to hell is paved with good intentions.*,
-does contain "no" in the beginning, but it is used to emphasize how novel the product is. The sentence bears a positive sentiment although it contains a negation.
+does contain "no" in the beginning, but it is used to emphasize how novel the product is; the sentence bears a positive sentiment although it contains a negation.
 
 
 **Other ideas**. Breaking free of the Bag-of-Words assumption by leveraging sentence-level features could improve upon the W2V model.
