@@ -55,18 +55,18 @@ that match the `ENUM: {<JJ><,><JJ><,><JJ><,><JJ>}...` pattern.
 > **Table 3**: The sentiment likelihoods of the newly collected adjectives. 
 
 **Reconciliation**. We assign polarities to each of the newly collected adjectives with their sentiment likelihood.
-That is, we compute `p(adj|c)` for each adjective with respect to their sentiment class, the result of which is
+That is, we compute `p(adj|sentiment)` for each adjective with respect to their sentiment class, the result of which is
 presented in **Table 3**. For instance, *funny*/*dull* are the most frequent in the positively/negatively labeled sentences, hence it is assigned with the highest
 polarity in each sentiment class. Assigning polarities is implemented in the `nls_cw2/task_2/part_a/assign_polarities.py` script.
 
+**Discussion and evaluation of the extended dictionary**. Labeling new adjectives with the two patterns achieves over 80%
+accuracy (reproducible with the `nls_cw2/task_2/part_a/evaluate.py` script), but this is not without errors. As we are collecting adjectives from a set of movie reviews,
+the patterns are prone to the false-positives & false-negatives unique to the movie reviews. For instance, a movie being *tough*, *risky* or *scary*
+is considered a compliment, but they are typically considered negative.
+Likewise, a *predictable* or *familiar* movies are considered boring, yet both words are typically considered positive.
+Mining typical opinions from a corpus is susceptible to false cases that are unique to the corpus. 
 
-
-**Discussion and evaluation of the extended dictionary**. (What is your main point?) We should be able to evaluate the performance... right?
-- why (evidence)? The confusion matrix shows that...?
-- example?
-  - any errors? 
-- how?
-
+  
 ### Part B - Classifier Implementations
 
 All the classifiers below are implemented in the `nls_cw2/task_2/part_b/evaluate_models.py` script.
@@ -96,17 +96,17 @@ the result of which can be viewed in `data/task_2/part_b/dataset.tsv`.
 > baseline | vanilla bow | bow (negation added) | vanilla w2v | w2v (negation added)
 > --- | --- | --- | --- | --- 
 > 0.5139 | 0.6459 | 0.6475 | 0.6937 | 0.7009
-> **Table 4**: The accuracy of the baseline and the mean-accuracies of the machine learning models on Corpus 2. 
+> **Table 5**: The accuracy of the baseline and the mean-accuracies of the machine learning models on Corpus 2. 
 
 
 **Accuracy and cross-validation** We evaluate the baseline model by testing its accuracy on Corpus 2, and 
 evaluate the two machine learning models by cross-validating them on Corpus 2. We evaluate the baseline model with the `evaluate_base()` function at lines 120-146.
 As for the BoW and W2V classifiers, we test them with K-fold cross validation in order to get a more reliable accuracy.
 The cross validation is done with 4 folds, which is implemented in both `evaluate_bow()` and `evaluate_w2v()` functions.
-We also cross-validate the models with the additional negation features. The results of all the evaluations are presented in **Table 4** above.
+We also cross-validate the models with the additional negation features. The results of all the evaluations are presented in **Table 5** above.
 
 **Comparisons to baseline**. Both BoW and W2V models perform far better than the baseline model. 
-As can be seen in **Table 4**, The vanilla BoW model outperforms the baseline by 10% in accuracy,
+As can be seen in **Table 5**, The vanilla BoW model outperforms the baseline by 10% in accuracy,
 and the vanilla W2V model outperforms the baseline by nearly 20%. 
 
 

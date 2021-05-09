@@ -1,6 +1,15 @@
-# NLS-CW2
+# How to run the code
 
-## Dependencies
+## 1.Unzip the archive
+```shell
+unzip delieverables.zip
+```
+
+## 2. enter the directory
+```shell
+cd delieverables
+```
+## 3. Install libraries 
 ```shell
 pip3 install nltk
 pip3 install scikit-learn
